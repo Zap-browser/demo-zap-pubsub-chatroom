@@ -2,15 +2,23 @@
 
 Welcome to the official demo site for exploring how the **Zap Browser** integrates with hostnames using protocol injections.
 
+This demo showcases a **BTFS-powered chatroom** where users can join public rooms and communicate via decentralized pubsub messaging.
+
+---
+
 ## 🚀 How to Use This Demo
 
 Follow these steps to get started:
 
 ### 1. Install Zap Browser
 
-Download and install the Zap Browser from the official [Link, which is to be updated after the release]().
+Download and install the Zap Browser from the official link:
+
+👉 [Zap Browser Download (coming soon)]()
 
 After installation, go through the default setup as described on the homepage. This includes initial configuration and enabling core features required for injections to work.
+
+---
 
 ### 2. Inject Permissions for the Demo Site
 
@@ -18,29 +26,59 @@ To allow the demo site to access Zap-injected features, follow these steps:
 
 - Open the **Zap Browser**.
 - Navigate to the **Injections** page.
-- Add the following URL to inject permissions for the demo site:
+- Add the following URL to injection permissions:
 
 
-This grants necessary permissions to the hostname: `demos.frontlabs.cloud`.
+Or simply paste the following link into the "URL" input on the injection page:
 
-Or simply inject the permissions simply by pasting the [demo-permissions-link](https://raw.githubusercontent.com/Zap-browser/demo-zap-peer-ping-pong/refs/heads/main/injectionobject.json) in the url section of injection page.
+👉 [Injection Object JSON](https://raw.githubusercontent.com/Zap-browser/demo-zap-pubsub-chatroom/refs/heads/main/injectionobject.json)
 
-### 3. Open the Demo Page [Demo ping-pong](https://demos.frontlabs.cloud/demo)
+This grants the necessary permissions to allow pubsub and other APIs.
 
-Once you've injected the permissions, simply visit the demo page in the Zap Browser:
+---
 
+### 3. Open the Demo Page
 
-You should now be able to interact with Zap-enabled features provided by the demo site.
+Now head over to the demo:
+
+👉 [Demo Chatroom](https://zap-browser.github.io/demo-zap-pubsub-chatroom)
+
+You can now join any public topic and start chatting with other users in real time.
+
+---
+
+## 💬 Features of the Chatroom
+
+- 🔗 Decentralized messaging over **BTFS pubsub**
+- 🚪 Join and leave rooms by topic name
+- 📡 Real-time message broadcast using btfs's injection APIs
+- 🧼 Automatic suppression of echoed messages
+
+---
+
+## 📺 Watch the Demo
+
+See it in action:
+
+👉 [YouTube Demo Video: TBA]()
+
+---
 
 ## 🧠 How It Works
 
-When the above domain is injected via the Zap Browser:
+When the demo domain is injected via Zap:
 
-- Zap injects secure JavaScript APIs into the page's context.
-- All this while Zap checks for the presence of necessary injection permissions and activates features accordingly.
+- Zap injects a secure wrapper (`window.btfs`) into the page context.
+- This wrapper exposes pubsub methods like `pub()` and `sub()`.
+- The site subscribes to a topic and publishes messages directly into BTFS's DHT using those APIs.
+- A small echo suppression mechanism prevents displaying self-sent messages twice.
 
+---
 
 ## 🔐 Security Note
 
-Only inject domains that you trust. Zap gives injected sites enhanced capabilities, so it's important to only use known and verified sources.
+Only inject domains that you trust.
 
+Zap gives injected sites enhanced capabilities, including access to filesystem, pubsub, and possibly identity. Always verify the source before granting injection permissions.
+
+---
