@@ -19,10 +19,41 @@ export default function BTFSChatApp() {
   const [input, setInput] = useState('');
   const unsubscribeRef = useRef<(() => void) | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
+  const [ load, setLoad ] = useState(true);
+  const [ errorType, setErrorType ] = useState<'noBtfs' | 'noPermissions' | null>(null);
   // 🟡 Echo suppression state
   const lastSentRef = useRef<string | null>(null);
   const skipNextEchoRef = useRef<boolean>(false);
+
+   useEffect(() => {
+    const init = async () => {
+      // Check if the btfsd exists; if not, set error
+      await new Promise(resolve => setTimeout(resolve, 500));
+      // console.log('Checking for btfs...');
+      if (!window.btfs) {
+        setErrorType('noBtfs');
+        // console.error('BTFS is not available.');
+        return;
+      }
+      // Check for required permissions; if not present, set error
+      if (
+        !window?.btfs?.permissions?.btfs?.children?.pubsub?.children?.pub?.base ||
+        !window?.btfs?.permissions?.btfs?.children?.pubsub?.children?.sub?.base
+      ) {
+        setErrorType('noPermissions');
+        // console.error('BTFS does not have the required permissions to access swarm peers or ping.');
+        return;
+      }
+      // now i can go there
+      if (window.btfs?.refreshStats) {
+        window.btfs.refreshStats();
+      }
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setLoad(false);
+    };
+
+    init();
+  }, []);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -81,7 +112,28 @@ export default function BTFSChatApp() {
   };
 
   if (!joined) {
-    return (
+    return load? (
+      <div className="bg-black h-screen w-full flex justify-center items-center text-white">
+        {errorType == null &&
+          <div className="flex flex-col items-center justify-center gap-2">
+            <h2 className="text-5xl font-mono">Checking required settings...</h2>
+            <p className="text-2xl font-mono">Please wait while the process completes.....</p>
+          </div>
+        }
+        {errorType === 'noBtfs' && (
+          <div className="text-red-500 flex flex-col items-center justify-center gap-2">
+            <h2 className="text-5xl font-mono">Error: BTFS-injections is not available.</h2>
+            <p className="text-2xl font-mono">Please ensure that you are on Zap-Browser</p>
+          </div>
+        )}
+        {errorType === 'noPermissions' && (
+          <div className="text-gray-500 flex flex-col items-center justify-center gap-2">
+            <h2 className="text-5xl font-mono">Warning: BTFS-injections-Permissions are not enabled.</h2>
+            <p className="text-2xl font-mono">Please ensure that you have provided the necessary permissions to this host.</p>
+          </div>
+        )}
+      </div>
+    ) : (
       <>
         <BackgroundBeams />
         <div className="h-screen bg-black flex flex-col items-center justify-center text-white dark">
