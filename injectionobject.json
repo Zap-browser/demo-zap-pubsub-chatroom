@@ -624,7 +624,7 @@
         }
       },
       "ping": {
-        "base": true
+        "base": false
       },
       "pubsub": {
         "base": false,
@@ -636,10 +636,10 @@
             "base": false
           },
           "pub": {
-            "base": false
+            "base": true
           },
           "sub": {
-            "base": false
+            "base": true
           }
         }
       },
@@ -908,7 +908,7 @@
             }
           },
           "peers": {
-            "base": true
+            "base": false
           }
         }
       },
