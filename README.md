@@ -60,7 +60,7 @@ You can now join any public topic and start chatting with other users in real ti
 
 See it in action:
 
-👉 [YouTube Demo Video: TBA]()
+👉 [YouTube Demo Video: TBA](https://youtu.be/M4hMBFeiHng)
 
 ---
 
